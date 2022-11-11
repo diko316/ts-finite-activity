@@ -1,0 +1,4 @@
+{
+  "displayName": "test",
+  "preset": "../../jest.config.json"
+}

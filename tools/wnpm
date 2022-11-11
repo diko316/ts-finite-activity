@@ -1,0 +1,21 @@
+#!/bin/sh
+
+. $(dirname $(readlink -f $0))/.initialize
+
+SCOPE_NAME="@finite-activity"
+
+set -e
+
+[ $# -lt 1 ] && report_error 2 "Requires Npm command argument"
+
+COMMAND=$1
+shift 1
+
+[ $# -lt 1 ] && report_error 2 "Requires workspace package name argument"
+
+PACKAGE_NAME=$1
+shift 1
+
+echo npm "${COMMAND}" --scope="${SCOPE_NAME}" --workspace "${WS_PACKAGES}/${PACKAGE_NAME}" "$@"
+npm "${COMMAND}" --scope="${SCOPE_NAME}" --workspace "${WS_PACKAGES}/${PACKAGE_NAME}" "$@"
+

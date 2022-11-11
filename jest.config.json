@@ -1,0 +1,14 @@
+{
+  "preset": "ts-jest",
+  "testEnvironment": "node",
+  "transform": {
+    "^.+\\.ts?$": [
+      "ts-jest",
+      {
+        "diagnostics": true,
+        "tsconfig": "tsconfig.json"
+      }
+    ]
+  },
+  "moduleFileExtensions": ["ts", "js"]
+}

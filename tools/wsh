@@ -1,0 +1,17 @@
+#!/bin/sh
+
+. $(dirname $(readlink -f $0))/.initialize
+
+set -e
+
+[ $# -lt 1 ] && report_error 1 "Requires package name argument"
+
+PACKAGE_NAME=$1
+shift 1
+
+[ $# -lt 1 ] && report_error 1 "You have no command to run in $PACKAGE_NAME"
+
+cd "$WS_PACKAGES_DIR/$PACKAGE_NAME"
+
+"$@"
+

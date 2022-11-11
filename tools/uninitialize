@@ -1,0 +1,11 @@
+#!/bin/sh
+
+. $(dirname $(readlink -f $0))/.initialize
+
+set -e
+
+npm uninstall --workspaces --save tslib
+npm uninstall --save-dev $(cat package.json | jq -r '(try .devDependencies | keys[])') || \
+  report_warning "failed to uninstall dev dependencies"
+
+rm -Rf node_modules package-lock.json

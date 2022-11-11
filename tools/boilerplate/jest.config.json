@@ -1,0 +1,4 @@
+{
+  "displayName": "lambda-db-migrations",
+  "preset": "../../jest.config.json"
+}

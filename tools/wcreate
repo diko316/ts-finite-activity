@@ -1,0 +1,51 @@
+#!/bin/sh
+
+. $(dirname $(readlink -f $0))/.initialize
+
+set -e
+
+[ $# -lt 1 ] && report_error 1 "Requires package name argument"
+
+PACKAGE_NAME=$1
+shift 1
+
+PACKAGE_DIR="${WS_PACKAGES_DIR}/${PACKAGE_NAME}"
+ASSETS_DIR="${WS_DIR}/tools/boilerplate"
+MAIN_PACKAGE_JSON="${PACKAGE_DIR}/package.json"
+
+rm -f "${MAIN_PACKAGE_JSON}"
+
+# intialize
+./tools/wnpm init "${PACKAGE_NAME}" -y >/dev/null
+
+# create directories
+mkdir -p "${PACKAGE_DIR}/lib"
+mkdir -p "${PACKAGE_DIR}/src"
+
+# merge package.json
+OVERRIDES_PACKAGE_JSON="${ASSETS_DIR}/package.override.json"
+TEMP_JSON_OUTPUT="${PACKAGE_DIR}/package.temp.json"
+
+jq -s '(.[1] | { name, version, description }) + .[0]'   ${OVERRIDES_PACKAGE_JSON}  ${MAIN_PACKAGE_JSON} > ${TEMP_JSON_OUTPUT}
+mv -f ${TEMP_JSON_OUTPUT} ${MAIN_PACKAGE_JSON}
+
+# install tslib
+./tools/wnpm install "${PACKAGE_NAME}" --save tslib
+
+# merge jest
+cat "${ASSETS_DIR}/jest.config.json" | jq ".displayName = \"${PACKAGE_NAME}\"" > "${PACKAGE_DIR}/jest.config.json"
+
+# copy .eslintrc
+cp -f "${ASSETS_DIR}/.eslintrc" "${PACKAGE_DIR}/"
+
+# copy tsconfig.json
+cp -f "${ASSETS_DIR}/tsconfig.json" "${PACKAGE_DIR}/"
+cp -f "${ASSETS_DIR}/tsconfig.build.json" "${PACKAGE_DIR}/"
+
+# copy rollup.config.mjs
+cp -f "${ASSETS_DIR}/rollup.config.mjs" "${PACKAGE_DIR}/"
+
+
+# create initial index.ts
+cp -f "${ASSETS_DIR}/index.ts.txt" "${PACKAGE_DIR}/src/index.ts"
+

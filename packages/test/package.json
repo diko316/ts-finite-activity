@@ -1,0 +1,53 @@
+{
+  "name": "@finite-activity/test",
+  "version": "1.0.0",
+  "description": "",
+  "author": "Diko Tech Slave",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git@diko-github:diko316/ts-finite-activity.git"
+  },
+  "private": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "types": "index.d.ts",
+  "typesVersions": {
+    ">=4.2": {
+      "*": [
+        "lib/*"
+      ]
+    }
+  },
+  "main": "lib/index.cjs",
+  "module": "lib/index.mjs",
+  "browser": "lib/index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "lib/**/*.d.ts",
+    "lib/**/*.ts",
+    "lib/**/*.cjs",
+    "lib/**/*.cjs.map",
+    "lib/**/*.mjs",
+    "lib/**/*.mjs.map",
+    "lib/*.js",
+    "lib/*.js.map"
+  ],
+  "scripts": {
+    "pretest": "npm run lint",
+    "test": "jest --passWithNoTests --config=jest.config.json",
+    "lint": "eslint -c .eslintrc src/**",
+    "copy-source": "cpy 'src/**/*.ts' '!src/**/*.spec.ts' 'dist/'",
+    "clean": "rimraf lib",
+    "prebundle": "npm run clean",
+    "bundle": "rollup -c rollup.config.mjs",
+    "postbundle": "run-s copy-source",
+    "build": "run-s lint test bundle"
+  },
+  "dependencies": {
+    "tslib": "^2.4.1"
+  }
+}
