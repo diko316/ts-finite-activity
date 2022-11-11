@@ -49,7 +49,7 @@ function getBuildInfo(options) {
   const relativeSourceDirectory =
     config.relativeSourceDirectory || `./${sourceDirectory}`;
   const relativeDestinationDirectory =
-    config.relativeDestinationDirectory || `./dist`;
+    config.relativeDestinationDirectory || `./lib`;
 
   return {
     fullModuleName: fullModuleName,

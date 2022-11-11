@@ -36,7 +36,7 @@
     "pretest": "npm run lint",
     "test": "jest --passWithNoTests --config=jest.config.json",
     "lint": "eslint -c .eslintrc src/**",
-    "copy-source": "cpy 'src/**/*.ts' '!src/**/*.spec.ts' 'dist/'",
+    "copy-source": "cpy 'src/**/*.ts' '!src/**/*.spec.ts' 'lib/'",
     "clean": "rimraf lib",
     "prebundle": "npm run clean",
     "bundle": "rollup -c rollup.config.mjs",
